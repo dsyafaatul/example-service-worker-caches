@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        if('serviceWorker' in navigator)
+        {
+            navigator.serviceWorker.register('sw.js', {
+                scope: '/'
+            }).then(function(reg){
+                reg.onupdatefound = function(e){
+                    if(reg.installing){
+                        let current = reg.installing;
+                        reg.installing.onstatechange = function(e){
+                            if(current.state == 'installed'){
+                                reg.waiting.postMessage('update');
+                            }
+                        }
+                    }
+                }
+                if(reg.waiting){
+                    reg.waiting.postMessage('update');
+                }
+            });
+        }else{
+            console.log('serviceworker is not supported');
+        }
+    </script>
+</body>
+</html>
