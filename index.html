@@ -10,9 +10,7 @@
     <script>
         if('serviceWorker' in navigator)
         {
-            navigator.serviceWorker.register('sw.js', {
-                scope: '/'
-            }).then(function(reg){
+            navigator.serviceWorker.register('sw.js').then(function(reg){
                 reg.onupdatefound = function(e){
                     if(reg.installing){
                         let current = reg.installing;
